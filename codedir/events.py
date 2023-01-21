@@ -3,6 +3,7 @@ import settings
 import sys
 from .algorithms.breadth_first import BreadthFirst
 from .algorithms.depth_first import DepthFirst
+from .algorithms.aStar import AStar
 
 
 def drawGrid():
@@ -32,18 +33,28 @@ def handle_events():
                 if settings.begin_go + 1 <= mouse[0] <= settings.end_go and 0 <= mouse[1] <= settings.blocksize and settings.GREEN_COOR and settings.RED_COOR:
                     r, c = settings.GREEN_COOR[0]
                     if settings.BFS_SELECTED:
-                        dfs = DepthFirst(c, r)
-                        dfs.run(c, r)
-                        
-                    else:
                         bfs = BreadthFirst(c, r)
                         bfs.run()
+                        
+                    elif settings.DFS_SELECTED:
+                        dfs = DepthFirst(c, r)
+                        dfs.run(c, r)
                     
-                if  settings.begin_dfs+1 <= mouse[0] <= settings.end_dfs and 0 <= mouse[1] <= settings.blocksize:
-                    settings.BFS_SELECTED = True
+                    else:
+                        astar = AStar(c, r)
+                        astar.run()
+                    
+                if settings.begin_dfs+1 <= mouse[0] <= settings.end_dfs and 0 <= mouse[1] <= settings.blocksize:
+                    settings.BFS_SELECTED = False
+                    settings.DFS_SELECTED = True
                         
                 if settings.begin_bfs+1 <= mouse[0] <= settings.end_bfs and 0 <= mouse[1] <= settings.blocksize:
+                    settings.BFS_SELECTED = True
+                    settings.DFS_SELECTED = False
+                
+                if settings.begin_astar+1 <= mouse[0] <= settings.end_astar and 0 <= mouse[1] <= settings.blocksize:
                     settings.BFS_SELECTED = False
+                    settings.DFS_SELECTED = False
                     
                 if settings.begin_green+1 <= mouse[0] <= settings.end_green and 0 <= mouse[1] <= settings.blocksize and not settings.GREEN_COOR:
                     settings.COLOR = settings.GREEN
@@ -125,6 +136,7 @@ def handle_events():
         make_button(settings.begin_back, settings.end_back, settings.color_dark, settings.color_light,mouse)
         make_button(settings.begin_dfs, settings.end_dfs, settings.color_dark, settings.color_light,mouse)
         make_button(settings.begin_bfs, settings.end_bfs, settings.color_dark, settings.color_light,mouse)
+        make_button(settings.begin_astar, settings.end_astar, settings.color_dark, settings.color_light,mouse)
         make_button(settings.begin_green, settings.end_green, settings.GREEN, settings.light_GREEN,mouse)
         make_button(settings.begin_wall, settings.end_wall, settings.BLUE, settings.light_BLUE,mouse)
         make_button(settings.begin_red, settings.end_red, settings.RED, settings.light_RED,mouse)
@@ -135,26 +147,37 @@ def handle_events():
         smallfont1 = pygame.font.SysFont('Corbel', settings.blocksize)
         smallfont2 = pygame.font.SysFont('Corbel', settings.blocksize//3)
         text = smallfont1.render('BACK' , True , settings.WHITE)
-        text1 = smallfont1.render('REMOVE ALL' , True , settings.WHITE)
+        text1 = smallfont1.render('REMOVE' , True , settings.WHITE)
         text2a = smallfont1.render('DFS' , True , settings.GREEN)
         text2b = smallfont1.render('DFS' , True , settings.RED)
         text3a = smallfont1.render('BFS' , True , settings.GREEN)
         text3b = smallfont1.render('BFS' , True , settings.RED)
+        text4a = smallfont1.render('A *' , True , settings.GREEN)
+        text4b = smallfont1.render('A *' , True , settings.RED)
         text4 = smallfont1.render('FIND RED DOT' , True , settings.WHITE)
 
         settings.SCREEN.blit(text, (settings.begin_back + 10, 2))
         settings.SCREEN.blit(text1, (settings.begin_removeAll + 5, 2))
         settings.SCREEN.blit(text4, (settings.begin_go + 12, 2))
         if settings.BFS_SELECTED:
+            settings.SCREEN.blit(text4b, (settings.begin_astar + 5, 2))
+            settings.SCREEN.blit(text2b, (settings.begin_dfs + 5, 2))
+            settings.SCREEN.blit(text3a, (settings.begin_bfs + 5, 2))
+
+        elif settings.DFS_SELECTED:
+            settings.SCREEN.blit(text4b, (settings.begin_astar + 5, 2))
             settings.SCREEN.blit(text2a, (settings.begin_dfs + 5, 2))
             settings.SCREEN.blit(text3b, (settings.begin_bfs + 5, 2))
-
+        
         else:
-            settings.SCREEN.blit(text2b, (settings.begin_dfs + 5, 2 ))
-            settings.SCREEN.blit(text3a, (settings.begin_bfs + 5, 2))
+            settings.SCREEN.blit(text4a, (settings.begin_astar + 5, 2))
+            settings.SCREEN.blit(text2b, (settings.begin_dfs + 5, 2))
+            settings.SCREEN.blit(text3b, (settings.begin_bfs + 5, 2))
+
     
         pygame.draw.rect(settings.SCREEN, settings.WHITE, [settings.begin_bfs, 0, settings.end_bfs - settings.begin_bfs, settings.blocksize], 1)
         pygame.draw.rect(settings.SCREEN, settings.WHITE, [settings.begin_dfs, 0, settings.end_dfs - settings.begin_dfs, settings.blocksize], 1)
+        pygame.draw.rect(settings.SCREEN, settings.WHITE, [settings.begin_astar, 0, settings.end_astar - settings.begin_astar, settings.blocksize], 1)
         pygame.draw.rect(settings.SCREEN, settings.WHITE, [settings.begin_back, 0, settings.end_back - settings.begin_back, settings.blocksize], 1)
         pygame.draw.rect(settings.SCREEN, settings.WHITE, [settings.begin_green, 0, settings.end_green - settings.begin_green, settings.blocksize], 1)
         pygame.draw.rect(settings.SCREEN, settings.WHITE, [settings.begin_wall, 0, settings.end_wall - settings.begin_wall, settings.blocksize], 1)

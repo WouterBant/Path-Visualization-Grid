@@ -36,8 +36,11 @@ def init():
 
     global begin_back, end_back, begin_removeAll, end_removeAll
     begin_back, end_back = 4 * blocksize, 7 * blocksize
-    begin_removeAll, end_removeAll = 7 * blocksize, 13 * blocksize
+    begin_removeAll, end_removeAll = 7 * blocksize, 11 * blocksize
 
+    global begin_astar, end_astar
+    begin_astar, end_astar = 11 * blocksize, 13 * blocksize
+    
     global begin_dfs, end_dfs, begin_bfs, end_bfs, begin_go, end_go
     begin_dfs, end_dfs = 13 * blocksize, 15 * blocksize
     begin_bfs, end_bfs = 15 * blocksize, 17 * blocksize
