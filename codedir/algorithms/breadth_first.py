@@ -11,12 +11,9 @@ class BreadthFirst:
         self.q = deque([(row, col)])
         self.directions = [[1, 0], [-1, 0], [0, 1], [0, -1]]
 
-    def getNextPosition(self):
-        return self.q.popleft()
-
     def run(self):
         while self.q:
-            row, col = self.getNextPosition()
+            row, col = self.q.popleft()
             time.sleep(0.1)
             pygame.display.update()
             for dr, dc in self.directions:
@@ -35,5 +32,3 @@ class BreadthFirst:
 
                         self.q.append((r, c))
                         self.visit.add((r, c))
-        print("There is not solution, try removing some walls.")
-        sys.exit(1)

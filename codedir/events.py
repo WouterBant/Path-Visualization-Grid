@@ -32,8 +32,8 @@ def handle_events():
                 if settings.begin_go + 1 <= mouse[0] <= settings.end_go and 0 <= mouse[1] <= settings.blocksize and settings.GREEN_COOR and settings.RED_COOR:
                     r, c = settings.GREEN_COOR[0]
                     if settings.BFS_SELECTED:
-                        dfs = DepthFirst(r, c)
-                        dfs.run()
+                        dfs = DepthFirst(c, r)
+                        dfs.run(c, r)
                         
                     else:
                         bfs = BreadthFirst(c, r)
@@ -59,7 +59,8 @@ def handle_events():
                     
                 if settings.begin_removeAll+1 <= mouse[0] <= settings.end_removeAll and 0 <= mouse[1] <= settings.blocksize:
                     settings.COLOR = settings.BLUE
-                    settings.RED_COOR = settings.GREEN_COOR = []
+                    settings.RED_COOR = [] 
+                    settings.GREEN_COOR = []
                     settings.positions = {}
                     for i in range(1, int(settings.height/settings.blocksize)):
                         for j in range(int(settings.width/settings.blocksize)):
