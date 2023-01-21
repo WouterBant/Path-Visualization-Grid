@@ -1,5 +1,5 @@
 import pygame
-import codedir.events as ev
+import codeVisualizer.events as ev
 import settings
 
 if __name__ == "__main__": 

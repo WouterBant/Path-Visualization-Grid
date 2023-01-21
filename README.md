@@ -1,9 +1,21 @@
-# Python-Projects
+# Path visualization in grid
 
-## Requirements
-pygame: pip3 install pygame
+- AStar
 
-## Project 1
-Visualizes DFS and BFS in a grid. 
-Choose a starting point (Green) and an endpoint (Red).
-Select the algorithm you wish to see and let the animation play.
+- BFS
+
+- DFS
+
+### Installation
+
+To install all dependencies run: 
+
+```
+pip install -r requirements.txt
+```
+
+### How to run
+
+```
+python main.py
+```
