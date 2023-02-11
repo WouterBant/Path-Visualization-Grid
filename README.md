@@ -6,6 +6,8 @@
 
 - DFS
 
+![demo](demo.gif)
+
 ### Installation
 
 To install all dependencies run: 
